@@ -1,5 +1,20 @@
-# Projeto Blog Pessoal em Nest
+#  👤 Projeto Blog Pessoal em Nest 
 
+## Tecnologias Utilizadas
+<div align="center">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nestjs/nestjs-original.svg" height="30" alt="nestjs logo"  />
+  <img width="12" />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="30" alt="typescript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="30" alt="nodejs logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" height="30" alt="mysql logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" height="30" alt="eslint logo"  />
+</div>
+
+
+## Informações do Projeto
 Diagrama das classes do projeto:
 <img src='https://camo.githubusercontent.com/c9f02ab37e969c86d9c938202535710e294b3f2da88c2a512347e07553e2d8f1/68747470733a2f2f692e696d6775722e636f6d2f4641756233616f2e6a7067' />
 
@@ -112,7 +127,32 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 </details>
 
+## v2.0
+
+- Criação da classe ```postagem.service.ts```.
+
+- Criação da classe ```postagem.controller.ts```.
+
+- Registro das classes ```PostagemService``` e ```PostagemController``` em ```postagem.module.ts```.
+
+- Criação do método ```findAll``` nas classes ```PostagemService```e ```PostagemController``` para mostrar todos os objetos.
+
+- Criação do método ```findById``` nas classes ```PostagemService``` e ```PostagemController``` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
+
+- Criação do método ```findAllByTitulo``` nas classes ```PostagemService``` e ```PostagemController``` para encontrar um objeto pelo título e retornando vazio se ele não existir.
+
+- Criação do método ```create``` na classe ```PostagemService``` e ```PostagemController``` para criação de objetos na tabela.
+
+- Criação do método ```update``` na classe ```PostagemService``` e ```PostagemController``` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+- Criação do método ```delete``` na classe ```PostagemService``` e ```PostagemController``` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+
 ## v1.0
+<details>
+<summary>
+Detalhes da versão.
+</summary>
 
 - Modificação da classe ```main```: <br>- Configuração do fuso horário para UTC-03:00 <br>- Ativação do ```ValidationPipe``` para validar dados em todas as requisições. <br> - Habilitação do ```CORS``` para permitir requisições de diferentes origens.
 
@@ -125,3 +165,4 @@ Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 - Registro da classe ```Postagem``` em ```postagem.module.ts```.
 
 - Registro da classe ```Postagem``` e ```PostagemModule``` em ```app.module.ts```.
+</details> 
