@@ -40,9 +40,8 @@ export class PostagemService {
     });
 
     // Se o id não for encontrado, retorna o erro 404 com a mensagem.
-    if (!postagem) {
+    if (!postagem)
       throw new HttpException("Postagem não encontrada", HttpStatus.NOT_FOUND);
-    }
 
     return postagem;
   }
