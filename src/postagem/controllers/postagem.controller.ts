@@ -1,5 +1,5 @@
-import { PostagemService } from './../services/postagem.service';
-import { Postagem } from './../entities/postagem.entity';
+import { PostagemService } from "./../services/postagem.service";
+import { Postagem } from "./../entities/postagem.entity";
 import {
   Body,
   Controller,
@@ -11,11 +11,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
-} from '@nestjs/common';
+} from "@nestjs/common";
 
 // Controller recebe e controla as requisições através de rotas (protocolos HTTP com endpoints e subendpoints(/rota/subrota)).
 
-@Controller('/postagens')
+@Controller("/postagens")
 export class PostagemController {
   constructor(private readonly postagemService: PostagemService) {}
 
@@ -26,15 +26,15 @@ export class PostagemController {
   }
 
   // Faz um tratamento no id para transformar de string para number. (ParseIntPipe recebe e transforma).
-  @Get('/:id')
+  @Get("/:id")
   @HttpCode(HttpStatus.OK)
-  findById(@Param('id', ParseIntPipe) id: number): Promise<Postagem> {
+  findById(@Param("id", ParseIntPipe) id: number): Promise<Postagem> {
     return this.postagemService.findById(id);
   }
 
-  @Get('/titulo/:titulo')
+  @Get("/titulo/:titulo")
   @HttpCode(HttpStatus.OK)
-  findAllByTitulo(@Param('titulo') titulo: string): Promise<Postagem[]> {
+  findAllByTitulo(@Param("titulo") titulo: string): Promise<Postagem[]> {
     return this.postagemService.findAllByTitulo(titulo);
   }
 
@@ -50,9 +50,9 @@ export class PostagemController {
     return this.postagemService.update(postagem);
   }
 
-  @Delete('/:id')
+  @Delete("/:id")
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id', ParseIntPipe) id: number) {
+  delete(@Param("id", ParseIntPipe) id: number) {
     return this.postagemService.delete(id);
   }
 }

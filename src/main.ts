@@ -1,13 +1,13 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory } from "@nestjs/core";
+import { AppModule } from "./app.module";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   // Aguarda o nest criar a instância da aplicação.
   const app = await NestFactory.create(AppModule);
 
   // Configuração do fuso horário para UTC-03:00 (Brasília).
-  process.env.TZ = '-03:00';
+  process.env.TZ = "-03:00";
 
   // Ativação do ValidationPipe para validar dados em todas as requisições.
   app.useGlobalPipes(new ValidationPipe());

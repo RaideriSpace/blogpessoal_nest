@@ -1,14 +1,16 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from "class-validator";
 import {
   Column,
   Entity,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
-} from 'typeorm';
+} from "typeorm";
+import { Tema } from "../../tema/entities/tema.entity";
 
 // Define a tabela "tb_postagens".
 
-@Entity({ name: 'tb_postagens' })
+@Entity({ name: "tb_postagens" })
 
 // Exporta a classe "Postagem".
 export class Postagem {
@@ -29,4 +31,10 @@ export class Postagem {
   // Cria a coluna data e preenche com a data e horário atual.
   @UpdateDateColumn()
   data: Date;
+
+  // Cria a relação das tabelas Controller e Tema sendo Many-to-one, criando a coluna com chave estrangeira "temaId".
+  @ManyToOne(() => Tema, (tema) => tema.postagem, {
+    onDelete: "CASCADE",
+  })
+  tema: Tema;
 }
