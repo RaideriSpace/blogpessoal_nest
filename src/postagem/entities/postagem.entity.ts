@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from "typeorm";
 import { Tema } from "../../tema/entities/tema.entity";
+import { Usuario } from "../../usuario/entities/usuario.entity";
 
 // Define a tabela "tb_postagens".
 
@@ -33,10 +34,17 @@ export class Postagem {
   @UpdateDateColumn()
   data: Date;
 
-  // Cria a relação das tabelas Controller e Tema sendo Many-to-one, criando a coluna com chave estrangeira "temaId".
+  // Cria a relação das tabelas Postagem e Tema sendo Many-to-one, criando a coluna com chave estrangeira "temaId".
   @ManyToOne(() => Tema, (tema) => tema.postagem, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "tema_id" })
   tema: Tema;
+
+  // Cria a relação das tabelas Postagem e Usuario sendo Many-to-one, criando a coluna com chave estrangeira "temaId".
+  @ManyToOne(() => Usuario, (usuario) => usuario.postagem, {
+    onDelete: "CASCADE",
+  })
+  @JoinColumn({ name: "usuario_id" })
+  usuario: Usuario;
 }

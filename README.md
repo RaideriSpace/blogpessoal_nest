@@ -14,10 +14,224 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" height="30" alt="eslint logo"  />
 </div>
 
-## Informações do Projeto
+## Diagrama das classes do projeto
 
-Diagrama das classes do projeto:
-<img src='https://camo.githubusercontent.com/c9f02ab37e969c86d9c938202535710e294b3f2da88c2a512347e07553e2d8f1/68747470733a2f2f692e696d6775722e636f6d2f4641756233616f2e6a7067' />
+<div align='center'>
+  <img src='https://camo.githubusercontent.com/c9f02ab37e969c86d9c938202535710e294b3f2da88c2a512347e07553e2d8f1/68747470733a2f2f692e696d6775722e636f6d2f4641756233616f2e6a7067' />
+</div>
+
+## Estrutura do Projeto
+
+Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo boas práticas de separação de responsabilidades.
+
+```plaintext
+​src/
+├── auth/
+│ ├── bcrypt/
+│ │   └── bcrypt.ts    # Service do "auth". Criptografa a senha.
+│ │
+│ ├── entities/
+│ │   └── usuariologin.entity.ts    # Entidade de "usuariologin" com os atributos necessarios para login.
+│ │
+│ └── auth.module.ts    # # Módulo de "postagem" com o mapeamento dos componentes.
+│
+├── postagem/
+│ ├── entities/
+│ │   └── postagem.entity.ts    # Entidade de "postagem" com os atributos da tabela.
+│ │
+│ ├── services/
+│ │   └── postagem.service.ts    # Serviços de "postagem" com os métodos da classe.
+│ │
+│ ├── controllers/
+│ │   └── postagem.controller.ts    # Controle de "postagem" com o controle dos caminhos (EndPoints).
+│ │
+│ └── postagem.module.ts    # Módulo de "postagem" com o mapeamento dos componentes.
+│
+├── tema/
+│ ├── entities/
+│ │   └── tema.entity.ts    # Entidade de "tema" com os atributos da tabela.
+│ │
+│ ├── services/
+│ │   └── tema.service.ts    # Serviços de "tema" com os métodos da classe.
+│ │
+│ ├── controllers/
+│ │   └── tema.controller.ts    # Controle de "postagem" com o controle dos caminhos (EndPoints).
+│ │
+│ └── tema.module.ts    # Módulo de "postagem" com o mapeamento dos componentes.
+│
+├── usuario/
+│ ├── entities/
+│ │   └── usuario.entity.ts    # Entidade de "usuario" com os atributos da tabela.
+│ │
+│ ├── services/
+│ │   └── usuario.service.ts    # Serviços de "usuario" com os métodos da classe.
+│ │
+│ ├── controllers/
+│ │   └── usuario.controller.ts    # Controle de "usuario" com o controle dos caminhos (EndPoints).
+│ │
+│ └── usuario.module.ts    # Módulo de "usuario" com o mapeamento dos componentes.
+│
+├── app.module.ts
+├── app.controller.ts    # Controller da aplicação com a conexão do banco de dados e importação dos módulos.
+├── app.service.ts
+└── main.ts
+```
+
+## Configuração do Ambiente
+
+**1.** Copie o arquivo `.env_sample` e renomeie para `.env`:
+
+```bash
+cp .env_sample .env
+```
+
+**2.** Preencha as variáveis com suas configurações locais:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+DB_NAME=db_blogpessoal
+```
+
+**3.** Instale as dependências:
+```bash
+npm install
+```
+**4.** Inicie o servidor:
+```bash
+npm run start:dev
+```
+---
+
+# Versões
+
+## v4.0 (Atual)
+<!-- <details> -->
+<!-- <summary> -->
+<!-- Detalhes da versão -->
+<!-- </summary> -->
+
+- Criação do módulo `Auth` para autenticação e criptografia da senha.
+
+- Criação da classe auxiliar `UsuarioLogin`.
+
+- Criação da classe auxiliar `Bcrypt`.
+
+- Criação do módulo `AuthModule`.
+
+- Registro da classe `Bcryp` na classe `AuthModule`.
+
+- Registro da classe `AuthoModule` na classe `AppModule`.
+
+- Criação do módulo `Usuario`:<br>- Criação da classe `usuario.module.ts`.<br>- Criação da classe `usuario.entity.ts` com as definições da tabela `tb_usuario`.
+
+- Registro da classe `Usuario` em `usuario.module.ts`.
+
+- Registro da classe `Usuario` e `UsuarioModule` em `app.module.ts`.
+
+- Criação da classe `usuario.service.ts` e `usuario.controller.ts`.
+
+- Registro das classes `UsuarioService` e `UsuarioController` em `usuario.module.ts`.
+
+- Modificação do `postagem.entity.ts`, `postagem.service.ts` e `postagem.module.ts` para inserir a chave estrangeira `usuario_id`.
+
+- Criação do método `findAll` nas classes `UsuarioService`e `UsuarioController` para mostrar todos os objetos.
+
+- Criação do método `findById` nas classes `UsuarioService` e `UsuarioController` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
+
+- Criação do método `findAllByNome` nas classes `UsuarioService` e `UsuarioController` para encontrar um objeto pelo nome e retornando vazio se ele não existir.
+
+- Criação do método `create` na classe `UsuarioService` e `UsuarioController` para criação de objetos na tabela, retornando um erro se o nome já existir.
+
+- Criação do método `update` na classe `UsuarioService` e `UsuarioController` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+- Criação do método `delete` na classe `UsuarioService` e `UsuarioController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+- Configuração do ```app.module.ts``` para utilização do ```.env```.
+
+<!-- </details> -->
+
+## v3.0
+
+<details>
+<summary>
+Detalhes da versão
+</summary>
+
+- Criação do módulo `Tema`:<br>- Criação da classe `tema.module.ts`.<br>- Criação da classe `tema.entity.ts` com as definições da tabela `tb_tema`.
+
+- Registro da classe `Tema` em `tema.module.ts`.
+
+- Registro da classe `Tema` e `TemaModule` em `app.module.ts`.
+
+- Criação da classe `tema.service.ts`.
+
+- Criação da classe `tema.controller.ts`.
+
+- Registro das classes `temaService` e `TemaController` em `tema.module.ts`.
+
+- Modificação do `postagem.entity.ts`, `postagem.service.ts` e `postagem.module.ts` para inserir a chave estrangeira `temaID` e fazer as verificações do `create` e do `update` para identificar se a chave existe antes de realizar a criação/alteração.
+
+- Criação do método `findAll` nas classes `TemaService`e `TemaController` para mostrar todos os objetos.
+
+- Criação do método `findById` nas classes `TemaService` e `TemaController` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
+
+- Criação do método `findAllByDescricao` nas classes `TemaService` e `TemaController` para encontrar um objeto pelo título e retornando vazio se ele não existir.
+
+- Criação do método `create` na classe `TemaService` e `TemaController` para criação de objetos na tabela.
+
+- Criação do método `update` na classe `TemaService` e `TemaController` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+- Criação do método `delete` na classe `TemaService` e `TemaController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+</details>
+
+## v2.0
+
+<details>
+<summary>
+Detalhes da versão
+</summary>
+
+- Criação da classe `postagem.service.ts`.
+
+- Criação da classe `postagem.controller.ts`.
+
+- Registro das classes `PostagemService` e `PostagemController` em `postagem.module.ts`.
+
+- Criação do método `findAll` nas classes `PostagemService`e `PostagemController` para mostrar todos os objetos.
+
+- Criação do método `findById` nas classes `PostagemService` e `PostagemController` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
+
+- Criação do método `findAllByTitulo` nas classes `PostagemService` e `PostagemController` para encontrar um objeto pelo título e retornando vazio se ele não existir.
+
+- Criação do método `create` na classe `PostagemService` e `PostagemController` para criação de objetos na tabela.
+
+- Criação do método `update` na classe `PostagemService` e `PostagemController` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+
+- Criação do método `delete` na classe `PostagemService` e `PostagemController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
+</details>
+
+## v1.0
+
+<details>
+<summary>
+Detalhes da versão.
+</summary>
+
+- Modificação da classe `main`: <br>- Configuração do fuso horário para UTC-03:00 <br>- Ativação do `ValidationPipe` para validar dados em todas as requisições. <br> - Habilitação do `CORS` para permitir requisições de diferentes origens.
+
+- Criação do banco de dados `db_blogpessoal`.
+
+- Configuração da conexão com banco de dados no `app.module.ts`.
+
+- Criação do módulo `Postagem`:<br>- Criação da classe `postagem.module.ts`.<br>- Criação da classe `postagem.entity.ts` com as definições da tabela `tb_postagens`.
+
+- Registro da classe `Postagem` em `postagem.module.ts`.
+
+- Registro da classe `Postagem` e `PostagemModule` em `app.module.ts`.
+</details>
 
 ## Detalhes sobre o Nest
 
@@ -124,78 +338,4 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
 
-</details>
-
-## v3.0 - Atual
-
-- Criação do módulo `Tema`:<br>- Criação da classe `tema.module.ts`.<br>- Criação da classe `tema.entity.ts` com as definições da tabela `tb_tema`.
-
-- Registro da classe `Tema` em `tema.module.ts`.
-
-- Registro da classe `Tema` e `TemaModule` em `app.module.ts`.
-
-- Criação da classe `tema.service.ts`.
-
-- Criação da classe `tema.controller.ts`.
-
-- Registro das classes `temaService` e `TemaController` em `tema.module.ts`.
-
-- Modificação do `postagem.entity.ts`, `postagem.service.ts` e `postagem.module.ts` para inserir a chave estrangeira `temaID` e fazer as verificações do `create` e do `update` para identificar se a chave existe antes de realizar a criação/alteração.
-
-- Criação do método `findAll` nas classes `TemaService`e `TemaController` para mostrar todos os objetos.
-
-- Criação do método `findById` nas classes `TemaService` e `TemaController` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
-
-- Criação do método `findAllByDescricao` nas classes `TemaService` e `TemaController` para encontrar um objeto pelo título e retornando vazio se ele não existir.
-
-- Criação do método `create` na classe `TemaService` e `TemaController` para criação de objetos na tabela.
-
-- Criação do método `update` na classe `TemaService` e `TemaController` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
-
-- Criação do método `delete` na classe `TemaService` e `TemaController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
-
-## v2.0
-
-<details>
-<summary>
-Detalhes da versão
-</summary>
-
-- Criação da classe `postagem.service.ts`.
-
-- Criação da classe `postagem.controller.ts`.
-
-- Registro das classes `PostagemService` e `PostagemController` em `postagem.module.ts`.
-
-- Criação do método `findAll` nas classes `PostagemService`e `PostagemController` para mostrar todos os objetos.
-
-- Criação do método `findById` nas classes `PostagemService` e `PostagemController` para encontrar um objeto pelo Id e retornando erro se o Id não existir.
-
-- Criação do método `findAllByTitulo` nas classes `PostagemService` e `PostagemController` para encontrar um objeto pelo título e retornando vazio se ele não existir.
-
-- Criação do método `create` na classe `PostagemService` e `PostagemController` para criação de objetos na tabela.
-
-- Criação do método `update` na classe `PostagemService` e `PostagemController` para atualização de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
-
-- Criação do método `delete` na classe `PostagemService` e `PostagemController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
-</details>
-
-## v1.0
-
-<details>
-<summary>
-Detalhes da versão.
-</summary>
-
-- Modificação da classe `main`: <br>- Configuração do fuso horário para UTC-03:00 <br>- Ativação do `ValidationPipe` para validar dados em todas as requisições. <br> - Habilitação do `CORS` para permitir requisições de diferentes origens.
-
-- Criação do banco de dados `db_blogpessoal`.
-
-- Configuração da conexão com banco de dados no `app.module.ts`.
-
-- Criação do módulo `Postagem`:<br>- Criação da classe `postagem.module.ts`.<br>- Criação da classe `postagem.entity.ts` com as definições da tabela `tb_postagens`.
-
-- Registro da classe `Postagem` em `postagem.module.ts`.
-
-- Registro da classe `Postagem` e `PostagemModule` em `app.module.ts`.
 </details>
