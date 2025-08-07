@@ -11,10 +11,13 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from "@nestjs/common";
+import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 
 // Controller recebe e controla as requisições através de rotas (protocolos HTTP com endpoints e subendpoints(/rota/subrota)).
 
+@UseGuards(JwtAuthGuard)
 @Controller("/postagens")
 export class PostagemController {
   constructor(private readonly postagemService: PostagemService) {}
@@ -40,19 +43,23 @@ export class PostagemController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  create(@Body() postagem: Postagem): Promise<Postagem> {
+  create(
+    @Body() postagem: Postagem,
+  ): Promise<{ message: string; postagem: Postagem }> {
     return this.postagemService.create(postagem);
   }
 
   @Put()
   @HttpCode(HttpStatus.CREATED)
-  update(@Body() postagem: Postagem): Promise<Postagem> {
+  update(
+    @Body() postagem: Postagem,
+  ): Promise<{ message: string; postagem: Postagem }> {
     return this.postagemService.update(postagem);
   }
 
   @Delete("/:id")
-  @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param("id", ParseIntPipe) id: number) {
+  @HttpCode(HttpStatus.OK)
+  delete(@Param("id", ParseIntPipe) id: number): Promise<{ message: string }> {
     return this.postagemService.delete(id);
   }
 }

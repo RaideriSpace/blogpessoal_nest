@@ -20,12 +20,23 @@ export class PostagemService {
   // Não necessita de tratamento de erro pois lista é sempre encontrada, mesmo que vazia.
   async findAll(): Promise<Postagem[]> {
     // SELECT * FROM tb_postagem;
-    return await this.postagemRepository.find({
+    const postList = await this.postagemRepository.find({
       relations: {
         tema: true,
         usuario: true,
       },
     });
+
+    // Verifique se a lista de postagem está vazia.
+    if (postList.length === 0) {
+      throw new HttpException(
+        "Nenhuma postagem encontrada.",
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    // Retorna a lista se houver algum item.
+    return postList;
   }
 
   // --- Método de encontrar pelo Id: ---
@@ -52,7 +63,7 @@ export class PostagemService {
   // Não necessita de tratamento de erro pois lista é sempre encontrada, mesmo que vazia.
   async findAllByTitulo(titulo: string): Promise<Postagem[]> {
     // SELECT * FROM tb_postagem WHERE titulo LIKE "%titulo%";
-    return await this.postagemRepository.find({
+    const postList = await this.postagemRepository.find({
       where: {
         // ILike é CaseSensetive e o Like não.
         titulo: ILike(`%${titulo}%`),
@@ -62,33 +73,82 @@ export class PostagemService {
         usuario: true,
       },
     });
+
+    // Verifique se a lista de postagem está vazia.
+    if (postList.length === 0) {
+      throw new HttpException(
+        "Nenhuma postagem encontrada.",
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    // Retorna a lista se houver algum item.
+    return postList;
   }
 
   // --- Método de cadastrar: ---
-  async create(postagem: Postagem): Promise<Postagem> {
-    // Verifica se o id do tema existe antes da criação;
-    await this.temaService.findById(postagem.tema.id);
-    // INSERT INTO tb_postagens (titulo, texto, data) VALUES ("Título", "Texto", CURRENT_TIMESTAMP());
-    return await this.postagemRepository.save(postagem);
+  async create(
+    postagem: Postagem,
+  ): Promise<{ message: string; postagem: Postagem }> {
+    try {
+      // Verifica se o id do tema existe antes da criação;
+      await this.temaService.findById(postagem.tema.id);
+      // INSERT INTO tb_postagens (titulo, texto, data) VALUES ("Título", "Texto", CURRENT_TIMESTAMP());
+      const createdPost = await this.postagemRepository.save(postagem);
+      return {
+        message: "Postagem criada com sucesso!",
+        postagem: createdPost,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao criar postagem! Verifique os dados enviados.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   // --- Método de atualizar: ---
-  async update(postagem: Postagem): Promise<Postagem> {
+  async update(
+    postagem: Postagem,
+  ): Promise<{ message: string; postagem: Postagem }> {
     // Tratamento para se o id não existir.
-    const postagem_id = await this.findById(postagem.id);
-    if (!postagem_id) {
+    await this.findById(postagem.id);
+    if (!postagem.id) {
       throw new HttpException("Postagem não encontrada", HttpStatus.NOT_FOUND);
     }
+
     // Verifica se o id do tema existe antes de atualizar;
     await this.temaService.findById(postagem.tema.id);
-    // UPDATE tb_postagem SET postagem WHERE id = postagem.id;
-    return await this.postagemRepository.save(postagem);
+
+    try {
+      // UPDATE tb_postagem SET postagem WHERE id = postagem.id;
+      const updatedPost = await this.postagemRepository.save(postagem);
+      return {
+        message: "Postagem atualizada com sucesso!",
+        postagem: updatedPost,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao atualizar a postagem! Verifique os dados enviados.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   // --- Método de deletar: ---
-  async delete(id: number): Promise<DeleteResult> {
+  async delete(id: number): Promise<{ message: string }> {
     // DELETE FROM tb_postagem WHERE id = id;
     await this.findById(id);
-    return await this.postagemRepository.delete(id);
+    try {
+      await this.postagemRepository.delete(id);
+      return {
+        message: `Postagem de id ${id} deletada com sucesso!`,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao deletar postagem.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

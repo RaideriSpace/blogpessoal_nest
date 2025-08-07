@@ -13,11 +13,16 @@ export class TemaService {
 
   // --- Encontrar todos: ---
   async findAll(): Promise<Tema[]> {
-    return await this.temaRepository.find({
+    const temaList = await this.temaRepository.find({
       relations: {
         postagem: true,
       },
     });
+
+    if (temaList.length === 0)
+      throw new HttpException("Nenhum tema encontrado.", HttpStatus.NOT_FOUND);
+
+    return temaList;
   }
 
   // --- Encontrar pelo ID relacionando com postagem: ---
@@ -39,7 +44,7 @@ export class TemaService {
 
   // --- Encontrar pela descrição, relacionando com postagem: ---
   async findAllByDescricao(descricao: string): Promise<Tema[]> {
-    return await this.temaRepository.find({
+    const temaList = await this.temaRepository.find({
       where: {
         descricao: ILike(`%${descricao}%`),
       },
@@ -47,23 +52,61 @@ export class TemaService {
         postagem: true,
       },
     });
+
+    if (temaList.length === 0)
+      throw new HttpException("Nenhum tema encontrado.", HttpStatus.NOT_FOUND);
+
+    return temaList;
   }
 
   // --- Criar novo tema: ---
-  async create(tema: Tema): Promise<Tema> {
-    return await this.temaRepository.save(tema);
+  async create(tema: Tema): Promise<{ message: string; tema: Tema }> {
+    try {
+      const createdTema = await this.temaRepository.save(tema);
+      return {
+        message: "Tema criado com sucesso!",
+        tema: createdTema,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao criar o tema! Verifique os dados enviados.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   // --- Atualizar um tema: ---
-  async update(tema: Tema): Promise<Tema> {
+  async update(tema: Tema): Promise<{ message: string; tema: Tema }> {
     await this.findById(tema.id);
 
-    return await this.temaRepository.save(tema);
+    try {
+      const updatedTema = await this.temaRepository.save(tema);
+      return {
+        message: "Tema atualizado com sucesso!",
+        tema: updatedTema,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao atualizar o tema! Verifique os dados enviados.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   // --- Deleta um tema: ---
-  async delete(id: number): Promise<DeleteResult> {
+  async delete(id: number): Promise<{ message: string }> {
     await this.findById(id);
-    return await this.temaRepository.delete(id);
+    try {
+      await this.temaRepository.delete(id);
+
+      return {
+        message: `Tema com id ${id} deletado com sucesso.`,
+      };
+    } catch (error) {
+      throw new HttpException(
+        "Erro ao deletar o tema.",
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

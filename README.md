@@ -22,7 +22,9 @@
 
 ## Estrutura do Projeto
 
-Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo boas práticas de separação de responsabilidades.
+ Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo boas práticas de separação de responsabilidades.
+ <details>
+<summary>Exibir</summary>
 
 ```plaintext
 ​src/
@@ -30,10 +32,27 @@ Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo 
 │ ├── bcrypt/
 │ │   └── bcrypt.ts    # Service do "auth". Criptografa a senha.
 │ │
+│ ├── constants/
+│ │   └── constants.ts    # Armazena a chave secreta de acesso.
+│ │
+│ ├── controllers/
+│ │   └── auth.controller.ts    # Controle do Endpoint de login para aplicação do AuthService, interceptado pelo Guard. 
+│ │
 │ ├── entities/
 │ │   └── usuariologin.entity.ts    # Entidade de "usuariologin" com os atributos necessarios para login.
 │ │
-│ └── auth.module.ts    # # Módulo de "postagem" com o mapeamento dos componentes.
+│ ├── guard/
+│ │   ├── jwt-auth.guard.ts    # Guard que intercepta para verificar a chave jwt.
+│ │   └── local-auth.guard.ts    # Guard que intercepta o usuario para verificar o login.
+│ │
+│ ├── services/
+│ │   └── auth.service.ts    # Recebe e usa outros Services para verificar e validar usuario e senha e gerar o token.
+│ │
+│ ├── strategy/
+│ │   ├── jwt.strategy.ts    # Recebe do Guard para usar o AuthService e validar o token.
+│ │   └── local.strategy.ts    # Recebe do Guard para usar o AuthService e validar o usuario e senha.
+│ │
+│ └── auth.module.ts    # Módulo de "postagem" com o mapeamento dos componentes.
 │
 ├── postagem/
 │ ├── entities/
@@ -77,6 +96,8 @@ Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo 
 └── main.ts
 ```
 
+</details>
+
 ## Configuração do Ambiente
 
 **1.** Copie o arquivo `.env_sample` e renomeie para `.env`:
@@ -107,11 +128,41 @@ npm run start:dev
 
 # Versões
 
-## v4.0 (Atual)
+## v5.0 (Atual)
 <!-- <details> -->
 <!-- <summary> -->
 <!-- Detalhes da versão -->
 <!-- </summary> -->
+
+- Instalação do `Passport Local`, `Passport JWT` e `@nestjs/jwt`.
+
+- Criação da classe `LocalAuthGuard`.
+
+- Criação da classe `Constant` para armazenar a chave aleatória.
+
+- Criação da classe `AuthService`.
+
+- Registro da `LocalStrategy` e `AuthService` em `AuthModule`.
+
+- Criação da classe `AuthController`.
+
+- Criação da classe `JwtAuthGuard`.
+
+- Criação da classe `JwtStrategy`.
+
+- Registro da `JwtStrategy`em `AuthModule`.
+
+- Atualização das classes controladoras.
+
+- Aplicação de tratamento de erros e mensagens de sucesso para `Postagem` e `Tema`.
+
+<!-- </details> -->
+
+## v4.0 
+<details> 
+<summary> 
+Detalhes da versão 
+</summary>
 
 - Criação do módulo `Auth` para autenticação e criptografia da senha.
 
@@ -151,7 +202,7 @@ npm run start:dev
 
 - Configuração do ```app.module.ts``` para utilização do ```.env```.
 
-<!-- </details> -->
+</details>
 
 ## v3.0
 

@@ -25,11 +25,21 @@ export class UsuarioService {
   }
 
   async findAll(): Promise<Usuario[]> {
-    return await this.usuarioRepository.find({
+
+    const userList = await this.usuarioRepository.find({
       relations: {
         postagem: true,
       },
     });
+
+    if (userList.length === 0) {
+      throw new HttpException(
+        'Nenhum usuário encontrado.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    return userList;
   }
 
   async findById(id: number): Promise<Usuario> {
