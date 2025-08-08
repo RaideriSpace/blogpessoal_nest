@@ -1,5 +1,8 @@
 # 👤 Projeto Blog Pessoal em Nest
 
+Este é um projeto desenvolvido durante o **Bloco 2** do bootcamp da **Generation Brasil – Desenvolvedor Fullstack JavaScript**.  
+O sistema implementa autenticação, organização modular e versionamento de funcionalidades, seguindo boas práticas de documentação e testes.
+
 ## Tecnologias Utilizadas
 
 <div align="center">
@@ -12,6 +15,8 @@
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" height="30" alt="mysql logo"  />
   <img width="12" />
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/eslint/eslint-original.svg" height="30" alt="eslint logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jest/jest-plain.svg" height="30" alt="jest logo" />
 </div>
 
 ## Diagrama das classes do projeto
@@ -22,7 +27,8 @@
 
 ## Estrutura do Projeto
 
- Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo boas práticas de separação de responsabilidades.
+Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo boas práticas de separação de responsabilidades.
+
  <details>
 <summary>Exibir</summary>
 
@@ -36,7 +42,7 @@
 │ │   └── constants.ts    # Armazena a chave secreta de acesso.
 │ │
 │ ├── controllers/
-│ │   └── auth.controller.ts    # Controle do Endpoint de login para aplicação do AuthService, interceptado pelo Guard. 
+│ │   └── auth.controller.ts    # Controle do Endpoint de login para aplicação do AuthService, interceptado pelo Guard.
 │ │
 │ ├── entities/
 │ │   └── usuariologin.entity.ts    # Entidade de "usuariologin" com os atributos necessarios para login.
@@ -94,6 +100,9 @@
 ├── app.controller.ts    # Controller da aplicação com a conexão do banco de dados e importação dos módulos.
 ├── app.service.ts
 └── main.ts
+
+..test/
+ └── app.e2e-spec.ts    # Testes de autenticação e usuário.
 ```
 
 </details>
@@ -117,22 +126,49 @@ DB_NAME=db_blogpessoal
 ```
 
 **3.** Instale as dependências:
+
 ```bash
 npm install
 ```
+
 **4.** Inicie o servidor:
+
 ```bash
 npm run start:dev
 ```
+
+**5.** Rodar os testes com o Jest:
+
+```bash
+npm run test:e2e
+```
+
 ---
 
 # Versões
 
-## v5.0 (Atual)
-<!-- <details> -->
-<!-- <summary> -->
-<!-- Detalhes da versão -->
-<!-- </summary> -->
+## v6.0 (Atual)
+
+- Implementação de testes no arquivo `test/app.e2e-spec.ts` utilizando o `Jest`.
+
+- Testes realizados:
+  - Cadastro de usuário com senha menor que 8 caracteres.
+  - Cadastro de usuário com e-mail invalido.
+  - Cadastro de usuário válido.
+  - Cadastro de usuário duplicado.
+  - Login de usuário com senha errada.
+  - Login de usuário correto.
+  - Listagem de usuários sem estar logado.
+  - Atualização de usuários sem estar logado.
+  - Listagem de usuários logado.
+  - Atualização de usuário logado.
+
+## v5.0
+
+<details>
+<summary>
+Detalhes da versão
+</summary>
 
 - Instalação do `Passport Local`, `Passport JWT` e `@nestjs/jwt`.
 
@@ -156,9 +192,10 @@ npm run start:dev
 
 - Aplicação de tratamento de erros e mensagens de sucesso para `Postagem` e `Tema`.
 
-<!-- </details> -->
+</details>
 
-## v4.0 
+## v4.0
+
 <details> 
 <summary> 
 Detalhes da versão 
@@ -200,7 +237,7 @@ Detalhes da versão
 
 - Criação do método `delete` na classe `UsuarioService` e `UsuarioController` para exclusão de objetos na tabela buscando pelo id, retornando erro se o Id não existir.
 
-- Configuração do ```app.module.ts``` para utilização do ```.env```.
+- Configuração do `app.module.ts` para utilização do `.env`.
 
 </details>
 
