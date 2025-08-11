@@ -17,8 +17,8 @@ import { ProdService } from "./data/services/prod.service";
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useClass: DevService,
-      // useClass: ProdService,
+      // useClass: DevService,
+      useClass: ProdService,
     }),
     AuthModule,
     UsuarioModule,
