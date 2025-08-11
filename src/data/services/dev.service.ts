@@ -17,7 +17,7 @@ export class DevService implements TypeOrmOptionsFactory {
       username: this.config.get<string>("DB_USERNAME"),
       password: this.config.get<string>("DB_PASSWORD"),
       database: this.config.get<string>("DB_NAME"),
-      entities: [Postagem, Tema, Usuario],
+      entities: [Usuario, Postagem, Tema],
       synchronize: true,
       logging: true,
     };

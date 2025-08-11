@@ -2,10 +2,12 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import { SwaggerTheme, SwaggerThemeNameEnum } from "swagger-themes";
 
 async function bootstrap() {
   // Aguarda o nest criar a instância da aplicação.
   const app = await NestFactory.create(AppModule);
+  const theme = new SwaggerTheme();
 
   // Configuração para o swagger fazer a documentação.
   const config = new DocumentBuilder()
@@ -20,8 +22,18 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
+  // Criação do documento Swagger
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("/swagger", app, document);
+
+  // A customização é passada como um terceiro argumento no método setup:
+  // Biblioteca de temas usado no Swagger para pegar uns temas legais: 
+  // https://github.com/ilyamixaltik/swagger-themes/blob/530bf8e1eae0a7cdda32211d17504a262ceed586/README.md
+  const options = {
+    customSiteTitle: "BlogPessoal - Lucas Alves Pinheiro",
+    customCss: theme.getBuffer(SwaggerThemeNameEnum.NORD_DARK),
+  };
+
+  SwaggerModule.setup("/swagger", app, document, options);
 
   // Configuração do fuso horário para UTC-03:00 (Brasília).
   process.env.TZ = "-03:00";

@@ -38,8 +38,13 @@ Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo 
 │ ├── bcrypt/
 │ │   └── bcrypt.ts    # Service do "auth". Criptografa a senha.
 │ │
+│ ├── data/
+│ │   └── bcrypt.ts    # Service do "auth". Criptografa a senha.
+│ │
 │ ├── constants/
-│ │   └── constants.ts    # Armazena a chave secreta de acesso.
+│ │   └── guard/
+│ │       ├── dev.service.ts    # Configurações do TypeORM para ambiente de desenvolvimento.
+│ │       └── prod.service.ts    # Configurações do TypeORM para ambiente de produção.
 │ │
 │ ├── controllers/
 │ │   └── auth.controller.ts    # Controle do Endpoint de login para aplicação do AuthService, interceptado pelo Guard.
@@ -96,10 +101,10 @@ Organizado em módulos por domínio (Postagem, Tema, Usuário e Auth), seguindo 
 │ │
 │ └── usuario.module.ts    # Módulo de "usuario" com o mapeamento dos componentes.
 │
-├── app.module.ts
+├── app.module.ts    # Módulo principal que integra todos os outros.
 ├── app.controller.ts    # Controller da aplicação com a conexão do banco de dados e importação dos módulos.
 ├── app.service.ts
-└── main.ts
+└── main.ts    # Ponto de entrada da aplicação, com configurações do Swagger e CORS. 
 
 ..test/
  └── app.e2e-spec.ts    # Testes de autenticação e usuário.
@@ -145,9 +150,51 @@ npm run test:e2e
 
 ---
 
+## Deploy
+
+Este projeto está hospedado e documentado no *Render*. Você pode acessar a documentação interativa através do Swagger:
+
+- Link da Documentação (Swagger UI): https://blogpessoal-lucasalvespinheiro.onrender.com/swagger#/
+
+⚠️ Nota: Para rodar o projeto localmente, é necessário garantir que no arquivo `app.module.ts` o serviço de dados utilizado seja o DevService, e não o ProdService. A configuração no arquivo deve estar assim:
+```typescript
+
+@Module({
+  imports: [
+    // ...
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useClass: DevService, // Certifique-se de que esta linha está ativa
+      // useClass: ProdService, // E esta linha está comentada
+    }),
+    // ...
+  ],
+  // ...
+})
+export class AppModule {}
+
+```
+
 # Versões
 
-## v6.0 (Atual)
+## v7.1(Atual)
+
+v7.1
+- Personaliza o Swagger.
+
+v7.0
+- Ajustes para Deploy.
+- Criação da pasta `data` com as variáveis de configuração do banco local e em produção.
+- Ajusta o `app.module.ts` para importar as configurações do banco de dados do data conforme necessidade.
+- Ajusta os decorations dos entitys e dos controllers para documentação com o Swagger.
+
+## v6.0
+
+<details>
+<summary>
+Detalhes da versão
+</summary>
 
 - Implementação de testes no arquivo `test/app.e2e-spec.ts` utilizando o `Jest`.
 
@@ -162,6 +209,7 @@ npm run test:e2e
   - Atualização de usuários sem estar logado.
   - Listagem de usuários logado.
   - Atualização de usuário logado.
+  </details>
 
 ## v5.0
 

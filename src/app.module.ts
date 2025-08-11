@@ -17,13 +17,13 @@ import { ProdService } from "./data/services/prod.service";
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      // useClass: DevService,
-      useClass: ProdService,
+      useClass: DevService,
+      // useClass: ProdService,
     }),
-    PostagemModule,
-    TemaModule,
     AuthModule,
     UsuarioModule,
+    TemaModule,
+    PostagemModule,
   ],
   controllers: [AppController],
 })
