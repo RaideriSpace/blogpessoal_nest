@@ -14,11 +14,14 @@ import {
   UseGuards,
 } from "@nestjs/common";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
+import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 // Controller recebe e controla as requisições através de rotas (protocolos HTTP com endpoints e subendpoints(/rota/subrota)).
 
+@ApiTags("Postagem")
 @UseGuards(JwtAuthGuard)
 @Controller("/postagens")
+@ApiBearerAuth()
 export class PostagemController {
   constructor(private readonly postagemService: PostagemService) {}
 
