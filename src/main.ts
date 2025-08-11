@@ -12,7 +12,7 @@ async function bootstrap() {
     .setTitle("Blog Pessoal - Lucas Alves Pinheiro")
     .setDescription("Projeto Blog Pessoal")
     .setContact(
-      "Lucas Alls Pinheiro",
+      "Lucas Alves Pinheiro",
       "https://github.com/RaideriSpace",
       "l.pinheiro.w@gmail.com",
     )
